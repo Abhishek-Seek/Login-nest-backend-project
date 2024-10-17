@@ -1,6 +1,4 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schema/user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -22,6 +20,8 @@ export class UsersService {
     return {
 
       access_token: await this.jwtService.signAsync(createUserDto),
+      createUserDto,
+      
     };
   }
 
@@ -46,10 +46,10 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    return await this.userModel.findOne({id});
+    return await this.userModel.findById(id);
   }
 
- async update(id: string, updateUserDto: UpdateUserDto) {
+ async update(id: string, updateUserDto: any) {
     return await this.userModel.findByIdAndUpdate(id, updateUserDto);
   }
 
